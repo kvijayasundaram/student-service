@@ -18,21 +18,27 @@ public class MainController {
         studentList.put(2, new Student(2, 15, "sanjay"));
         studentList.put(3, new Student(3, 48, "karthick"));
     }
-    @GetMapping(path="hello")
-    public GenericResponse sayHello(@RequestParam String name) {
-        return new GenericResponse("hello world" + name);
+
+    @GetMapping(path="/")
+    public String ping() {
+        return "success";
 
     }
-    @GetMapping(path="students")
+    @GetMapping(path="/hello")
+    public GenericResponse sayHello(@RequestParam String name) {
+        return new GenericResponse("hello world " + name);
+
+    }
+    @GetMapping(path="/students")
     public Collection<Student> getStudents() {
         return studentList.values();
     }
-    @GetMapping(path="student/{studentId}")
+    @GetMapping(path="/student/{studentId}")
     public Student getStudent(@PathVariable(name="studentId") int id) {
         return studentList.get(id);
     }
 
-    @PostMapping(path="students")
+    @PostMapping(path="/students")
     public ResponseEntity<Student> putStudent(@RequestBody @Validated  Student student) throws Exception {
         if(student != null) {
             if(student.getStudentId() == 0) {
@@ -45,7 +51,7 @@ public class MainController {
         }
         return ResponseEntity.ok(student);
     }
-    @DeleteMapping(path="student/{studentId}")
+    @DeleteMapping(path="/student/{studentId}")
     public ResponseEntity<GenericResponse> deleteStudent(@PathVariable(name="studentId") int id) {
         String message = null;
         if(studentList.get(id) != null) {
